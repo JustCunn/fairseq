@@ -1,3 +1,5 @@
+****NOTE: FAIRSEQ IS A PROJECT BY FACEBOOKAI. THIS FORK CONTAINS CHANGES TO MAKE IT COMPATIBLE WITH AISTRIGHNLP.****
+
 <p align="center">
   <img src="docs/fairseq_logo.png" width="150">
   <br />
