@@ -292,6 +292,12 @@ def add_preprocess_args(parser):
 def add_dataset_args(parser, train=False, gen=False):
     group = parser.add_argument_group("dataset_data_loading")
     gen_parser_from_dataclass(group, DatasetConfig())
+    group.add_argument(
+        '--aistrigh', nargs='+',
+        metavar='LIST',
+        help="[Path to data folder, language, window-length] if you wish "
+             "to use AistrighNLP to reapply Celtic mutations on a demutated model"
+    )
     # fmt: on
     return group
 

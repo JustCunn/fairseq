@@ -16,6 +16,8 @@ import sys
 import time
 from argparse import Namespace
 from collections import namedtuple
+from aistrigh_nlp.predict_inference import PredictText
+from aistrigh_nlp.apply_mutations import MutateText
 
 import numpy as np
 import torch
@@ -145,6 +147,10 @@ def main(cfg: FairseqConfig):
 
     # Setup task, e.g., translation
     task = tasks.setup_task(cfg.task)
+
+    if cfg.dataset.aistrigh:
+        predictor = PredictText(cfg.dataset.aistrigh[1], cfg.dataset.aistrigh[0], cfg.dataset.aistrigh[2])
+        mutate = MutateText(cfg.dataset.aistrigh[1])
 
     # Load ensemble
     overrides = ast.literal_eval(cfg.common_eval.model_overrides)
@@ -278,7 +284,13 @@ def main(cfg: FairseqConfig):
                     remove_bpe=cfg.common_eval.post_process,
                     extra_symbols_to_ignore=get_symbols_to_strip_from_output(generator),
                 )
-                detok_hypo_str = decode_fn(hypo_str)
+                if cfg.dataset.aistrigh:
+                    debpe_hypo_str = bpe.decode(hypo_str)
+                    aist_predictions = predictor.predict(debpe_hypo_str)
+                    debpe_hypo_str = mutate.mutate_text(aist_predictions)
+                    detok_hypo_str = tokenizer.decode(debpe_hypo_str)
+                else:
+                    detok_hypo_str = decode_fn(hypo_str)
                 score = hypo["score"] / math.log(2)  # convert to base 2
                 # original hypothesis (after tokenization and BPE)
                 print("H-{}\t{}\t{}".format(id_, score, hypo_str))
