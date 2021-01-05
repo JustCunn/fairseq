@@ -131,15 +131,12 @@ and [RoBERTa](https://pytorch.org/hub/pytorch_fairseq_roberta/) for more example
 * **To install fairseq** and develop locally:
 
 ``` bash
-git clone https://github.com/pytorch/fairseq
+git clone https://github.com/JustCunn/fairseq
 cd fairseq
 pip install --editable ./
 
 # on MacOS:
 # CFLAGS="-stdlib=libc++" pip install --editable ./
-
-# to install the latest stable release (0.10.0)
-# pip install fairseq==0.10.0
 ```
 
 * **For faster training** install NVIDIA's [apex](https://github.com/NVIDIA/apex) library:
